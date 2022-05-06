@@ -1,0 +1,17 @@
+coverage.xml
+
+# CICD
+dist/
+bin/
+
+# Local development tools/files
+.idea
+.env
+.envrc
+*.gpg
+.vscode
+.devcontainer
+
+# build files
+src/versioninfo.json
+src/resource.syso

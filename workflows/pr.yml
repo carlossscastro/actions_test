@@ -1,0 +1,65 @@
+###  On Pr creation against main
+###
+###        checking_pr                 
+###   +-----------------------+          
+###   |                       |                                                       
+###   | Runs sanity checks    |                                                         
+###   |                       |                                                          
+###   | Tests Packages linux  |                      
+###   | if enabled            |                            
+###   |                       | 
+###   +-----------------------+      
+
+on: 
+  pull_request:
+    branches: [ main ]
+
+env:
+  GO_VERSION: '1.16'
+
+###
+###   Checking PR # Checks the file and the info provided when an exporter is modified
+###
+name: Checking PR
+jobs:
+  checking_pr:
+    name: Checking PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{env.GO_VERSION}}
+      - name: Install dependencies
+        run: |
+          sudo wget -O /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.9.3/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+          sudo apt-get install rpm ruby ruby-dev rubygems build-essential
+          sudo gem install --no-document fpm
+      - name: Check if exporters have been modified and if so run checks
+        id: check
+        run : |
+          git fetch -at origin --unshallow
+          source ./scripts/common_functions.sh
+          shouldDoRelease
+          loadVariables
+          checkExporter
+          setStepOutput
+          if [ "$ERRORS" != "" ];then 
+            echo Following errors have been found: $ERRORS
+            exit 1
+          fi
+      - name: Compile exporter
+        if: ${{ steps.check.outputs.CREATE_RELEASE == 'true'}}
+        run : |
+          make fetch-resources-${{ steps.check.outputs.NAME }}
+          make build-${{ steps.check.outputs.NAME }}
+      - name: e2e-test
+        if: ${{ steps.check.outputs.CREATE_RELEASE == 'true'}}
+        uses: newrelic/newrelic-integration-e2e-action@v1
+        with:
+          spec_path: exporters/${{ steps.check.outputs.NAME }}/e2e/e2e_spec.yml
+          account_id: ${{ secrets.ACCOUNT_ID }}
+          api_key: ${{ secrets.API_KEY }}
+          license_key: ${{ secrets.LICENSE_KEY }}
