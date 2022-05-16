@@ -16,8 +16,12 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: ${{env.GO_VERSION}}
-      - name: build-${{ github.event.inputs.exporter }}
-        run: make build-${{ github.event.inputs.exporter }}
+      - name: check-ubuntu
+        run: lsb_release -a
+      - name: check-cgroups
+        run: grep cgroup /proc/filesystems
+      - name: build-e2e
+        run: make build-e2e
       - name: e2e-test
         uses: newrelic/newrelic-integration-e2e-action@v1
         with:
