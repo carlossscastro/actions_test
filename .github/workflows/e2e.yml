@@ -20,12 +20,3 @@ jobs:
         run: lsb_release -a
       - name: check-cgroups
         run: grep cgroup /proc/filesystems
-      - name: build-e2e
-        run: make build-e2e
-      - name: e2e-test
-        uses: newrelic/newrelic-integration-e2e-action@v1
-        with:
-          spec_path: test/e2e/e2e_spec.yml
-          account_id: ${{ secrets.ACCOUNT_ID }}
-          api_key: ${{ secrets.API_KEY }}
-          license_key: ${{ secrets.LICENSE_KEY }}
