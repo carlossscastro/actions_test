@@ -6,17 +6,21 @@ env:
   GO_VERSION: '1.18'
 
 jobs:
-  e2e-test:
-    name: E2E tests
-    runs-on: ubuntu-22.04
+  test_local:
+    runs-on: ubuntu-latest
+    name: Test run the e2e test on powerdns local testdata
     steps:
       - name: checkout-repository
         uses: actions/checkout@v2
       - name: Setup go
         uses: actions/setup-go@v1
         with:
-          go-version: ${{env.GO_VERSION}}
-      - name: check-ubuntu
-        run: lsb_release -a
-      - name: check-cgroups
-        run: grep cgroup /proc/filesystems
+          go-version: 1.17
+      - name: Run E2E for Docker
+        uses: ./
+        with:
+          spec_path: actions_test/test/e2e/e2e_spec.yml
+          account_id: ${{ secrets.ACCOUNT_ID }}
+          api_key: ${{ secrets.API_KEY }}
+          license_key: ${{ secrets.LICENSE_KEY }}
+          agent_dir: actions_test/test/e2e/agent_dir
