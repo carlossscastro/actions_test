@@ -8,7 +8,3 @@ FROM newrelic/infrastructure:latest
 
 ADD integrations.d/nri-config.yml /etc/newrelic-infra/integrations.d
 
-RUN apk --update add openjdk8-jre
-COPY --from=builder /usr/bin/nrjmx /usr/bin/nrjmx
-COPY --from=builder /usr/bin/nrjmx.jar /usr/bin/nrjmx.jar
-COPY --from=builder /usr/bin/jmxterm.jar /usr/bin/jmxterm.jar
