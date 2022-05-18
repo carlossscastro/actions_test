@@ -10,6 +10,6 @@ services:
 
 networks:
   stress:
-    external:
-      name: e2e
+    driver: bridge
+    name: e2e
 
