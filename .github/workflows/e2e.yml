@@ -19,8 +19,8 @@ jobs:
       - name: Run E2E for Docker
         uses: newrelic/newrelic-integration-e2e-action@v1
         with:
-          spec_path: actions_test/test/e2e/e2e_spec.yml
+          spec_path: test/e2e/e2e_spec.yml
           account_id: ${{ secrets.ACCOUNT_ID }}
           api_key: ${{ secrets.API_KEY }}
           license_key: ${{ secrets.LICENSE_KEY }}
-          agent_dir: actions_test/test/e2e/agent_dir
+          agent_dir: test/e2e/agent_dir
