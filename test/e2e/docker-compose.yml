@@ -6,10 +6,10 @@ services:
         context: deps
       restart: unless-stopped
       networks:
-        - agent
+        - stress
 
 networks:
-  agent:
+  stress:
     external:
       name: e2e
 
