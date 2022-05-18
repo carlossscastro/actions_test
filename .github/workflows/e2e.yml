@@ -17,7 +17,7 @@ jobs:
         with:
           go-version: 1.18
       - name: Run E2E for Docker
-        uses: ./
+        uses: newrelic/newrelic-integration-e2e-action@v1
         with:
           spec_path: actions_test/test/e2e/e2e_spec.yml
           account_id: ${{ secrets.ACCOUNT_ID }}
