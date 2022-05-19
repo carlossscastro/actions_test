@@ -4,8 +4,6 @@ services:
   agent:
     build:
       context: newrelic-infra-agent
-      args:
-        - NRJMX_VERSION=${NRJMX_VERSION}
     cap_add:
       - SYS_PTRACE
     pid: host
