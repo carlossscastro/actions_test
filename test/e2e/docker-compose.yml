@@ -7,6 +7,11 @@ services:
       restart: unless-stopped
       networks:
         - stress
+      deploy:
+        resources:
+          limits:
+            cpus: 0.50
+            memory: 512M
 
 networks:
   stress:
