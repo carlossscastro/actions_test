@@ -8,7 +8,7 @@ env:
 jobs:
   test_local:
     runs-on: ubuntu-latest
-    name: Test run the e2e test on powerdns local testdata
+    name: Test run the e2e test on Docker
     steps:
       - name: checkout-repository
         uses: actions/checkout@v2
