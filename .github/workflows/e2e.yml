@@ -7,15 +7,18 @@ env:
 
 jobs:
   test_local:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Test run the e2e test on Docker
     steps:
       - name: checkout-repository
         uses: actions/checkout@v2
-      - name: Setup go
-        uses: actions/setup-go@v1
+      - name: Install Go
+        uses: actions/setup-go@v2
         with:
-          go-version: 1.18
+          go-version: ${{ env.GO_VERSION }}
+      - name: Compile
+        run: |
+          GOOS=linux GOARCH=amd64 make compile
       - name: Run E2E for Docker
         uses: newrelic/newrelic-integration-e2e-action@v1
         with:
