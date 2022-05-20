@@ -24,6 +24,16 @@ scenarios:
       metrics:
         - source: "docker.yml"
           except_metrics:
-            - powerdns_authoritative_answers_bytes_total
-            - powerdns_recursor_cache_lookups_total
+            - docker.container.memorySoftLimitBytes
+            - docker.container.pids
+            - docker.container.processCount
+            - docker.container.processCountLimit
+            - docker.container.storageDataAvailableBytes
+            - docker.container.storageDataTotalBytes"
+            - docker.container.storageDataUsagePercent
+            - docker.container.storageDataUsedBytes
+            - docker.container.storageMetadataAvailableBytes
+            - docker.container.storageMetadataTotalBytes
+            - docker.container.storageMetadataUsagePercent
+            - docker.container.storageMetadataUsedBytes
           # additionals: ""
