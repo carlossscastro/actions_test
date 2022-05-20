@@ -29,7 +29,7 @@ scenarios:
             - docker.container.processCount
             - docker.container.processCountLimit
             - docker.container.storageDataAvailableBytes
-            - docker.container.storageDataTotalBytes"
+            - docker.container.storageDataTotalBytes
             - docker.container.storageDataUsagePercent
             - docker.container.storageDataUsedBytes
             - docker.container.storageMetadataAvailableBytes
