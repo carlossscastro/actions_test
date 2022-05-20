@@ -5,16 +5,8 @@ services:
       build:
         context: deps
       restart: unless-stopped
-      networks:
-        - stress
       deploy:
         resources:
           limits:
             cpus: 0.50
             memory: 512M
-
-networks:
-  stress:
-    driver: bridge
-    name: e2e
-
