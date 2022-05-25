@@ -1,14 +1,16 @@
-name: e2e
+name: E2E
+
 on:
-  workflow_dispatch:
+  pull_request:
 
 env:
   GO_VERSION: '1.18'
 
 jobs:
-  test_local:
+  e2eTest_CgroupsV1:
+    # Do not run e2e tests if commit message or PR has skip-e2e.
+    if: ${{ ! contains(github.event.pull_request.labels.*.name, 'ci/skip-e2e') }}
     runs-on: ubuntu-20.04
-    name: Test run the e2e test on Docker
     steps:
       - name: checkout-repository
         uses: actions/checkout@v2
@@ -16,13 +18,13 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ env.GO_VERSION }}
-      - name: Compile
+      - name: Compile nri-docker
         run: |
           GOOS=linux GOARCH=amd64 make compile
-      - name: Run E2E for Docker
+      - name: Run E2E
         uses: newrelic/newrelic-integration-e2e-action@v1
         with:
           spec_path: test/e2e/e2e_spec.yml
-          account_id: ${{ secrets.ACCOUNT_ID }}
-          api_key: ${{ secrets.API_KEY }}
-          license_key: ${{ secrets.LICENSE_KEY }}
+          account_id: ${{ secrets.COREINT_E2E_ACCOUNT_ID }}
+          api_key: ${{ secrets.COREINT_E2E_API_KEY }}
+          license_key: ${{ secrets.COREINT_E2E_LICENSE_KEY }}
